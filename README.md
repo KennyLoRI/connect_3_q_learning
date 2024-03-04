@@ -1,4 +1,5 @@
 # Connect-3 Q-Learning ReadMe
+![Connect-3 Illustration](connect_3.png)
 
 ## Overview
 
