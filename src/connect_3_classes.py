@@ -17,12 +17,12 @@ class connect_three_board:
     def __init__(self):
         # initialize the the playing board as empty
         self.board = np.zeros((3,3))
-        self.players = [1,-1] # player A and player B
-        self.current_player = 1 #random.choice(self.players)
+        self.players = [1,-1] # Agend and opponent
+        self.current_player = 1 # Agent makes first move
 
     def reset(self):
         self.board = np.zeros((3,3))
-        self.current_player = 1 #random.choice(self.players)
+        self.current_player = 1 # Agent makes first move again
 
     def get_available_actions(self):
         # available action is throwing a stone into every column whose upmost element is empty (i.e. not yet full)
@@ -71,6 +71,8 @@ class agent:
         return self.q_table.get((state, action), 0.0)
 
     def update_q_value(self, state, action, reward, next_state):
+        #determine best_next action of all available actions
+        #Shuffle to ensure we not always pick the first value, if all next_state, action pairs have value 0
         best_next_action = np.argmax([self.get_q_value(next_state, a) for a in range(3)])
         new_q_value = self.get_q_value(state,action) + self.learn_rate * (reward + self.discount_rate * self.get_q_value(next_state, best_next_action) - self.get_q_value(state,action))
         self.q_table[(state, action)] = new_q_value

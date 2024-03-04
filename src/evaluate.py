@@ -4,6 +4,7 @@ random.seed(42)
 def evaluate_agent(trained_agent, eval_episodes):
     total_reward = 0
     losses = 0
+    wins = 0
     env = connect_three_board()
     for episode in range(eval_episodes):
         state = str(env.board.flatten().tolist())
@@ -28,6 +29,7 @@ def evaluate_agent(trained_agent, eval_episodes):
                 #print("Game ended. Winner:", env.check_winner())
                 if env.check_winner() == 1:
                     total_reward += 1
+                    wins+=1
                 elif env.check_winner() == -1:
                     total_reward -= 1
                     losses+=1
@@ -38,11 +40,12 @@ def evaluate_agent(trained_agent, eval_episodes):
             env.current_player = -env.current_player
 
     average_loss_rate = losses / eval_episodes
+    average_win_rate = wins/eval_episodes
     average_total_reward = total_reward / eval_episodes
     #print(f"Average Loss Rate: {average_loss_rate * 100:.2f}%")
     #print(f"Average Total Reward: {average_total_reward:.2f}")
     #print(f"Q-Table:{trained_agent.q_table}")
-    return average_loss_rate
+    return average_win_rate, average_loss_rate
 
 
 
